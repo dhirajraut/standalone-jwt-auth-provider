@@ -11,4 +11,5 @@ public class JwtClaims {
 
 	private String userId;
 	private String locale;
+	private int timeoutInSeconds;
 }
