@@ -1,6 +1,7 @@
 package com.galaxy.auth;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -10,8 +11,6 @@ import com.galaxy.auth.JwtClaims;
 import com.galaxy.auth.StandaloneJwtAuthProvider;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.lang.Assert;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -39,7 +38,7 @@ public class StandaloneJwtAuthProviderTest {
 		JwtClaims jwtClaims = JwtClaims.builder().timeoutInSeconds(5).userId("Dhiraj").locale("en-us").build();
 		String generatedToken = StandaloneJwtAuthProvider.generateToken(jwtClaims);
 		log.info("Token = " + generatedToken);
-		Assert.isTrue(StandaloneJwtAuthProvider.verifyToken(generatedToken, jwtClaims));
+		Assert.assertTrue(StandaloneJwtAuthProvider.verifyToken(generatedToken, jwtClaims));
 	}
 
 	@Test
