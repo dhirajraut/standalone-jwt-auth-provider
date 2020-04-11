@@ -14,15 +14,27 @@ public class StandaloneJwtAuthProvider {
 
 		LocalDateTime currentDateTime = LocalDateTime.now();
 
-		Claims claims = Jwts.claims().setSubject(requiredClaims.getUserId()).setIssuedAt(currentDateTime.toDate())
-				.setExpiration(currentDateTime.plusSeconds(requiredClaims.getTimeoutInSeconds()).toDate());
+		Claims claims = Jwts.claims()
+		                    .setSubject(requiredClaims.getUserId())
+		                    .setIssuedAt(currentDateTime.toDate())
+		                    .setExpiration(currentDateTime
+		                            .plusSeconds(requiredClaims.getTimeoutInSeconds())
+		                            .toDate());
 
-		String token = Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512, KEY).compact();
+		String token = Jwts.builder()
+		                   .setClaims(claims)
+		                   .signWith(SignatureAlgorithm.HS512, KEY)
+		                   .compact();
 		return token;
 	}
 
 	public static boolean verifyToken(String token, JwtClaims jwtClaims) {
 
-		return Jwts.parser().setSigningKey(KEY).parseClaimsJws(token).getBody().getSubject().equals(jwtClaims.getUserId());
+		return Jwts.parser()
+		           .setSigningKey(KEY)
+		           .parseClaimsJws(token) /* Validate signature & expiry. Throws ExpiredJwtException/SignatureException. */
+		           .getBody()
+		           .getSubject()
+		           .equals(jwtClaims.getUserId());
 	}
 }
